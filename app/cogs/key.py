@@ -77,6 +77,15 @@ class KeyCog(commands.Cog):
         view.originalMessageID = originalMessage.id
         view.originalMessageChannel = originalMessage.channel
         
+    @app_commands.command(description='[LEADER] Add player to key group')
+    @app_commands.describe(
+        player='@mention player to add to group',
+        role='Role player wants to play')
+    async def add(self, interaction: discord.Interaction, player: str = '', role: str = ''):
+        await interaction.response.send_message(f'add command used by {interaction.user} - {player} - {role}')
+        logger.info(f'add command used by {interaction.user} - {player} - {role}')
+    #     #check if user in first position in list
+
 
 async def setup(bot):
     await bot.add_cog(KeyCog(bot))
