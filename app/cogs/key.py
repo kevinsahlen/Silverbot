@@ -4,6 +4,7 @@ from discord.ext import commands
 from views.keyView import KeyView
 from utils.keyEmbedder import KeyEmbedder
 from utils.timestamptool import TimestampTool
+from datetime import datetime
 import logging
 import re
 
@@ -27,6 +28,7 @@ class KeyCog(commands.Cog):
         starttime: str = None):
         logger.info(f'Key command used by {interaction.user} - {premades} - {description} - {starttime}')
         #list for iterating though potential premades command user might want to add to group
+        print(datetime.now())
         if starttime != None:
             try:
                 starttime = TimestampTool.discordTimestamp(time=starttime)

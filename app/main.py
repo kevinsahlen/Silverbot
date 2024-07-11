@@ -24,7 +24,7 @@ async def main():
             cog_path = f'{cogs_folder}.{cog_name}'
             logger.info(f'Loading cog {cog_name}')
             await bot.load_extension(cog_path)
-    await bot.start(os.getenv('TOKEN')) #'TOKEN' = Silverbot, 'TOKEN_TEST' = SilverDummy(test bot)
+    await bot.start(os.getenv('TOKEN_TEST')) #'TOKEN' = Silverbot, 'TOKEN_TEST' = SilverDummy(test bot)
 
 #OWNER COMMANDS------------------------------------------
 #_syncslash - syncs all global commands
@@ -59,8 +59,7 @@ async def on_ready():
 
 @bot.event
 async def on_resumed():
-    logger.info('Bot resumed')
-    print(f"bot resumed {datetime.datetime.now()}")
+    logger.info(f'Bot resumed {datetime.datetime.now()}')
 
 @bot.event
 async def on_disconnect():
