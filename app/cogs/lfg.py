@@ -9,7 +9,7 @@ class LFGCog(commands.Cog):
     
     @app_commands.command(description='Lists all roles of the user')
     async def lfg(self, interaction: discord.Interaction):
-        voice_state = interaction.author.voice
+        voice_state = interaction.user.voice
         if voice_state is not None and voice_state.channel is not None:
             voice_channel_id = voice_state.channel.id
             await interaction.response.send_message(f"The user is currently connected to voice channel with ID: {voice_channel_id}")
