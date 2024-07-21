@@ -4,8 +4,6 @@ from discord.ext import commands
 from views.keyView import KeyView
 from utils.keyEmbedder import KeyEmbedder
 from utils.timestamptool import discordTimestampKey
-import utils.db as db
-from datetime import datetime, timedelta
 import logging
 import re
 
@@ -15,7 +13,6 @@ class KeyCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    
     @app_commands.command(description='Start forming a key group. Use @mention to add friends to the group!')
     @app_commands.describe(
         premades='@mention friends to add them to list!',
@@ -27,8 +24,8 @@ class KeyCog(commands.Cog):
         premades: str = None,
         description: str = '',
         starttime: str = None): 
-#START OF FUNCTION-------------------------------------------------------------------------------------------
 
+#START OF FUNCTION-------------------------------------------------------------------------------------------
         logger.info(f'Key command used by {interaction.user} - {premades} - {description} - {starttime}')
         if starttime != None:
             try:
@@ -60,7 +57,7 @@ class KeyCog(commands.Cog):
                     logger.info(f'{i} is None, skipping')
         embedder = KeyEmbedder(
             list=embed_list,
-            desc=description,
+            description_input=description,
             start_time=starttime)
         view = KeyView(
             list=embed_list,
@@ -74,7 +71,6 @@ class KeyCog(commands.Cog):
         originalMessage = await interaction.original_response()
         view.originalMessageID = originalMessage.id
         view.originalMessageChannel = originalMessage.channel
-
 #END OF FUNCTION-------------------------------------------------------------------------------------------
 
 async def setup(bot):

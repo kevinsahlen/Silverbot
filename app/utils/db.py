@@ -1,14 +1,11 @@
 import discord
 import mysql.connector
-import pycountry
-import pytz
 import logging
-from fuzzywuzzy import fuzz, process
 from os import getenv
 
 logger = logging.getLogger(__name__)
 
-
+# creates database connection
 def db():
     return mysql.connector.connect(
         port=getenv('DB_PORT'),
@@ -17,6 +14,7 @@ def db():
         password=getenv('DB_PW'),
         database=getenv('DB_NAME'))
 
+# retrieves timezone for user from database
 def getTimezone(user: discord.User):
     with db() as conn:
         with conn.cursor() as cursor:
@@ -26,6 +24,7 @@ def getTimezone(user: discord.User):
                 return 'CEST'
             return result[0]
 
+# Inserts or updates timezone for user in database
 def setTimezone(user: discord.User, userinput: str):
     try:
         with db() as conn:
@@ -40,4 +39,4 @@ def setTimezone(user: discord.User, userinput: str):
                 return True, userinput
     except mysql.connector.Error as e:
         logger.error(f"Failed to set country code for user {user.id}: {e}")
-        raise  # Reraise the exception to indicate failure to the caller
+        raise
