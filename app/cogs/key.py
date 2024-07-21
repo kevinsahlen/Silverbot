@@ -3,8 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 from views.keyView import KeyView
 from utils.keyEmbedder import KeyEmbedder
-from utils.timestamptool import TimestampTool
-from datetime import datetime
+from utils.timestamptool import discordTimestampKey
 import logging
 import re
 
@@ -14,7 +13,6 @@ class KeyCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    
     @app_commands.command(description='Start forming a key group. Use @mention to add friends to the group!')
     @app_commands.describe(
         premades='@mention friends to add them to list!',
@@ -25,23 +23,20 @@ class KeyCog(commands.Cog):
         interaction: discord.Interaction,
         premades: str = None,
         description: str = '',
-        starttime: str = None):
+        starttime: str = None): 
+
+#START OF FUNCTION-------------------------------------------------------------------------------------------
         logger.info(f'Key command used by {interaction.user} - {premades} - {description} - {starttime}')
-        #list for iterating though potential premades command user might want to add to group
-        print(datetime.now())
         if starttime != None:
             try:
-                starttime = TimestampTool.discordTimestamp(time=starttime)
+                starttime = discordTimestampKey(time=starttime, user=interaction.user, day=None, month=None, year=None)
             except ValueError as e:
                 await interaction.response.send_message(e, ephemeral=True)
                 return
-        
-        
         #final list that gets added to embed
         embed_list = []
         #Always add command user to list
         embed_list.append([interaction.user, False, False, False])
-
         #Add all premades that are not None to embed_list
         if premades != None:
             iterate_premade = premades.split()
@@ -60,10 +55,9 @@ class KeyCog(commands.Cog):
                         logger.info(f'{i} is not a valid user mention, skipping')
                 else:#i != None:
                     logger.info(f'{i} is None, skipping')
-
         embedder = KeyEmbedder(
             list=embed_list,
-            desc=description,
+            description_input=description,
             start_time=starttime)
         view = KeyView(
             list=embed_list,
@@ -73,11 +67,11 @@ class KeyCog(commands.Cog):
             embed=embedder.get_embed(),
             view=view,
             ephemeral=False)
-
         #save channel and message id to keyView object, only used for closing the view after timeout
         originalMessage = await interaction.original_response()
         view.originalMessageID = originalMessage.id
         view.originalMessageChannel = originalMessage.channel
-        
+#END OF FUNCTION-------------------------------------------------------------------------------------------
+
 async def setup(bot):
     await bot.add_cog(KeyCog(bot))

@@ -23,7 +23,7 @@ class KeyView(discord.ui.View, ):
                 break
         else:
             self.list.append([interaction.user, btn == 1, btn == 2, btn == 3])
-        await interaction.edit_original_response(embed=self.embedder.get_embed(list=self.list), view=self)
+        await interaction.edit_original_response(embed=self.embedder.get_embed(new_player_role_list=self.list), view=self)
 
     @discord.ui.button(label='DPS', style=discord.ButtonStyle.red, emoji='<:dps:1257129006462144644>')
     async def dps_button(self, interaction: discord.Interaction, button):
@@ -51,7 +51,7 @@ class KeyView(discord.ui.View, ):
             if item[0] == interaction.user:
                 self.list.remove(item)
                 break
-        await interaction.edit_original_response(embed=self.embedder.get_embed(list=self.list), view=self)
+        await interaction.edit_original_response(embed=self.embedder.get_embed(new_player_role_list=self.list), view=self)
 
     @discord.ui.button(label='Close', style=discord.ButtonStyle.gray)
     async def close(self, interaction: discord.Interaction, button):
@@ -65,5 +65,5 @@ class KeyView(discord.ui.View, ):
     async def on_timeout(self):
         logger.info('View timed out')
         msg = await self.originalMessageChannel.fetch_message(self.originalMessageID)
-        await msg.edit(embed=self.embedder.get_embed(list=self.list, isTimedOut=True), view=None)
+        await msg.edit(embed=self.embedder.get_embed(new_player_role_list=self.list, is_timed_out=True), view=None)
     
