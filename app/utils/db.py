@@ -1,36 +1,43 @@
 import discord
 import mysql.connector
+import pycountry
+import pytz
+import logging
+from fuzzywuzzy import fuzz, process
+from os import getenv
 
-class Database:
-    @staticmethod
-    def db():
-        return mysql.connector.connect(
-            host=getenv('DB_HOST'),
-            port=getenv('DB_PORT'),
-            user=getenv('DB_USER'),
-            password=getenv('DB_PW'),
-            database=getenv('DB_NAME'))
-    
-    @staticmethod
-    def getCountryCode(user):
-        db = Database.db()
-        cursor = db.cursor()
-        cursor.execute("SELECT country FROM users WHERE discordID = %s", (user.id,))
-        result = cursor.fetchone()
-        db.close()
-        if result is None:
-            return None
-        return result
-    
-    def setCountryCode(user, code):
-        db = Database.db()
-        cursor = db.cursor()
-        cursor.execute("SELECT country FROM users WHERE discordID = %s", (user.id,))
-        result = cursor.fetchone()
-        if result is None:
-            cursor.execute("INSERT INTO users (discordID, discordName, country) VALUES (%s, %s, %s)", (user.id, user.name, code))
-        else:
-            cursor.execute("UPDATE users SET country = %s WHERE discordID = %s", (code, user.id))
-        db.commit()
-        cursor.close()
-        db.close()
+logger = logging.getLogger(__name__)
+
+
+def db():
+    return mysql.connector.connect(
+        port=getenv('DB_PORT'),
+        host=getenv('DB_HOST'),
+        user=getenv('DB_USER'),
+        password=getenv('DB_PW'),
+        database=getenv('DB_NAME'))
+
+def getTimezone(user: discord.User):
+    with db() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT timezone FROM users WHERE discordID = %s", (user.id,))
+            result = cursor.fetchone()
+            if result is None:
+                return 'CEST'
+            return result[0]
+
+def setTimezone(user: discord.User, userinput: str):
+    try:
+        with db() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("SELECT timezone FROM users WHERE discordID = %s", (user.id,))
+                result = cursor.fetchone()
+                if result is None:
+                    cursor.execute("INSERT INTO users (discordID, discordName, timezone) VALUES (%s, %s, %s)", (user.id, user.name, userinput))
+                else:
+                    cursor.execute("UPDATE users SET timezone = %s WHERE discordID = %s", (userinput, user.id))
+                conn.commit()
+                return True, userinput
+    except mysql.connector.Error as e:
+        logger.error(f"Failed to set country code for user {user.id}: {e}")
+        raise  # Reraise the exception to indicate failure to the caller
