@@ -1,6 +1,4 @@
 #IMPORTS------------------------------------------------
-import sys
-print(sys.executable)
 import discord
 from discord.ext import commands
 import asyncio

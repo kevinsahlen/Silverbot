@@ -21,7 +21,7 @@ def getTimezone(user: discord.User):
             cursor.execute("SELECT timezone FROM users WHERE discordID = %s", (user.id,))
             result = cursor.fetchone()
             if result is None:
-                return 'CEST'
+                return 'Europe/Stockholm'
             return result[0]
 
 # Inserts or updates timezone for user in database
