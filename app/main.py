@@ -28,7 +28,6 @@ async def main():
 
 #OWNER COMMANDS------------------------------------------
 #_syncslash - syncs all global commands
-#_loadedcogs - checks loaded cogs
 #_loginput - logs whatever input is given
 
 @commands.command(description='Sync all global commands')
@@ -37,14 +36,6 @@ async def syncslash(ctx: commands.Context):
     logger.info('Syncing global commands')
     await bot.tree.sync()
 bot.add_command(syncslash)
-
-@commands.command(description='check loaded cogs')
-@commands.is_owner()
-async def loadedcogs(ctx: commands.Context):
-    logger.info('Checking loaded cogs')
-    for cog in bot.cogs:
-        logger.info(f'Loaded cog: {cog}')
-bot.add_command(loadedcogs)
 
 @commands.command(description='log input')
 @commands.is_owner()
@@ -59,8 +50,7 @@ async def on_ready():
 
 @bot.event
 async def on_resumed():
-    logger.info('Bot resumed')
-    print(f"bot resumed {datetime.datetime.now()}")
+    logger.info(f'Bot resumed {datetime.datetime.now()}')
 
 @bot.event
 async def on_disconnect():

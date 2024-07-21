@@ -25,5 +25,8 @@ EXPOSE 80
 # Define environment variable
 ENV NAME World
 
+# Set the timezone
+ENV TZ=Europe/Stockholm
+
 # Run app.py when the container launches
 CMD ["python", "app/main.py"]
