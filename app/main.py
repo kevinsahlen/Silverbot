@@ -24,7 +24,14 @@ async def main():
             cog_path = f'{cogs_folder}.{cog_name}'
             logger.info(f'Loading cog {cog_name}')
             await bot.load_extension(cog_path)
-    await bot.start(os.getenv('TOKEN_TEST')) #'TOKEN' = Silverbot, 'TOKEN_TEST' = SilverDummy(test bot), set to 'TOKEN' when merging to main
+    await bot.start(os.getenv('TOKEN'))
+    #LOCAL
+    #'TOKEN' = Silverdummy
+    #'TOKEN_TEST' = Silverbot
+
+    #SERVER
+    #'TOKEN' = Silverbot
+    #'TOKEN_DUMMY' = Silverdummy
 
 #OWNER COMMANDS------------------------------------------
 #_syncslash - syncs all global commands

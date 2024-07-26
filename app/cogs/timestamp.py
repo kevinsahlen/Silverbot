@@ -16,7 +16,7 @@ class TimestampCog(commands.Cog):
 #START OF FUNCTION-------------------------------------------------------------------------------------------
         logger.info(f'Timestamp command used by {interaction.user} - {time}')
         try:
-            stamp = discordTimestamp(interaction.user, time, day=day, month=month, year=year)
+            stamp = discordTimestamp(interaction.user, time, input_day=day, input_month=month, input_year=year)
         except ValueError as e:
             await interaction.response.send_message(e, ephemeral=True)
             return

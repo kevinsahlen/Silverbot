@@ -22,9 +22,6 @@ COPY . /app
 # Make port 80 available to the world outside this container
 EXPOSE 80
 
-# Define environment variable
-ENV NAME World
-
 # Set the timezone
 ENV TZ=Europe/Stockholm
 

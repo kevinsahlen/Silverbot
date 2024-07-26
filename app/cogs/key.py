@@ -29,7 +29,7 @@ class KeyCog(commands.Cog):
         logger.info(f'Key command used by {interaction.user} - {premades} - {description} - {starttime}')
         if starttime != None:
             try:
-                starttime = discordTimestampKey(time=starttime, user=interaction.user, day=None, month=None, year=None)
+                starttime = discordTimestampKey(input_HHMM=starttime, user=interaction.user, input_day=None, input_month=None, input_year=None)
             except ValueError as e:
                 await interaction.response.send_message(e, ephemeral=True)
                 return
@@ -40,10 +40,9 @@ class KeyCog(commands.Cog):
         #Add all premades that are not None to embed_list
         if premades != None:
             iterate_premade = premades.split()
-            pattern = r"^<@\d{18}>$" #regex pattern for discord user mention
             for i in iterate_premade:
                 if i != None:
-                    if re.match(pattern, i):
+                    if re.match(r"^<@\d{18}>$", i):#regex pattern for discord user mention
                         user = await self.bot.fetch_user(int(i[2:-1]))
                         if [user, False, False, False] not in embed_list:
                             embed_list.append([user, False, False, False])
