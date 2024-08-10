@@ -1,5 +1,4 @@
-import discord
-from discord import app_commands
+from discord import app_commands, Interaction
 from discord.ext import commands
 from views.keyView import KeyView
 from utils.keyEmbedder import KeyEmbedder
@@ -20,7 +19,7 @@ class KeyCog(commands.Cog):
         starttime='Time the group starts in HH:MM')
     async def key(
         self,
-        interaction: discord.Interaction,
+        interaction: Interaction,
         premades: str = None,
         description: str = '',
         starttime: str = None): 
@@ -42,7 +41,7 @@ class KeyCog(commands.Cog):
             iterate_premade = premades.split()
             for i in iterate_premade:
                 if i != None:
-                    if re.match(r"^<@\d{18}>$", i):#regex pattern for discord user mention
+                    if re.match(r'^<@\d{18}>$', i):#regex pattern for discord user mention
                         user = await self.bot.fetch_user(int(i[2:-1]))
                         if [user, False, False, False] not in embed_list:
                             embed_list.append([user, False, False, False])

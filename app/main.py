@@ -1,5 +1,5 @@
 #IMPORTS------------------------------------------------
-import discord
+from discord import Intents
 from discord.ext import commands
 import asyncio
 import os
@@ -9,8 +9,9 @@ import datetime
 
 #INITIALIZE---------------------------------------------
 load_dotenv()
+
 logger = logging.getLogger(__name__)
-intents = discord.Intents.all()
+intents = Intents.all()
 bot = commands.Bot(command_prefix=os.getenv('PREFIX'), intents=intents)
 
 #LOADING COGS-------------------------------------------
@@ -27,7 +28,7 @@ async def main():
     await bot.start(os.getenv('TOKEN'))
     #LOCAL
     #'TOKEN' = Silverdummy
-    #'TOKEN_TEST' = Silverbot
+    #'TOKEN_REAL' = Silverbot
 
     #SERVER
     #'TOKEN' = Silverbot
@@ -68,5 +69,5 @@ async def on_command_error(ctx, error):
     logger.error(f'Error in command: {error}')
 
 #RUN MAIN----------------------------------------------
-if __name__ == "__main__":
+if __name__ == '__main__':
     asyncio.run(main())

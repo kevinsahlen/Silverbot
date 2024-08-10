@@ -1,5 +1,4 @@
-import discord
-from discord import app_commands
+from discord import app_commands, Interaction
 from discord.ext import commands
 
 class PingCog(commands.Cog):
@@ -7,7 +6,7 @@ class PingCog(commands.Cog):
         self.bot = bot
 
     @app_commands.command(description='Pings the bot')
-    async def ping(self, interaction: discord.Interaction):
+    async def ping(self, interaction: Interaction):
 #START OF FUNCTION--------------------------------------------------------------------------------
         await interaction.response.send_message('I\'m Awake!')
 #END OF FUNCTION----------------------------------------------------------------------------------

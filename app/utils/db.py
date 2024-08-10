@@ -18,7 +18,7 @@ def db():
 def getTimezone(user: discord.User):
     with db() as conn:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT timezone FROM users WHERE discordID = %s", (user.id,))
+            cursor.execute('SELECT timezone FROM users WHERE discordID = %s', (user.id,))
             result = cursor.fetchone()
             if result is None:
                 return 'Europe/Stockholm'
@@ -29,14 +29,14 @@ def setTimezone(user: discord.User, userinput: str):
     try:
         with db() as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT timezone FROM users WHERE discordID = %s", (user.id,))
+                cursor.execute('SELECT timezone FROM users WHERE discordID = %s', (user.id,))
                 result = cursor.fetchone()
                 if result is None:
-                    cursor.execute("INSERT INTO users (discordID, discordName, timezone) VALUES (%s, %s, %s)", (user.id, user.name, userinput))
+                    cursor.execute('INSERT INTO users (discordID, discordName, timezone) VALUES (%s, %s, %s)', (user.id, user.name, userinput))
                 else:
-                    cursor.execute("UPDATE users SET timezone = %s WHERE discordID = %s", (userinput, user.id))
+                    cursor.execute('UPDATE users SET timezone = %s WHERE discordID = %s', (userinput, user.id))
                 conn.commit()
                 return True, userinput
     except mysql.connector.Error as e:
-        logger.error(f"Failed to set country code for user {user.id}: {e}")
+        logger.error(f'Failed to set country code for user {user.id}: {e}')
         raise

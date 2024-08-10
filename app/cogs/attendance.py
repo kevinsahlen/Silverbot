@@ -1,5 +1,4 @@
-import discord
-from discord import app_commands
+from discord import app_commands, Interaction, Embed
 from discord.ext import commands
 import re
 import logging
@@ -12,21 +11,21 @@ class AttendanceCog(commands.Cog):
   
     @app_commands.command(description='see which rolemembers are in your voicechannel')
     @app_commands.describe(role='test')
-    async def attendance(self, interaction: discord.Interaction, role: str):
+    async def attendance(self, interaction: Interaction, role: str):
 #START OF FUNCTION-------------------------------------------------------------------------------------------
         try:
             voice = interaction.user.voice.channel
         except AttributeError:
             await interaction.response.send_message('You are not in a voice channel')
         green = True
-        match = re.match(r"<@&(\d+)>", role)
+        match = re.match(r'<@&(\d+)>', role)
         if match:
             role_id = int(match.group(1))  # Convert the extracted ID to integer
             role_object = interaction.guild.get_role(role_id)  # Get the role object
         else:
             logger.info('Role not found')
-        embed = discord.Embed(title='Attendance', description='Shows attendance for chosen role in your current voice channel', color=0x00ff00)
-        memberstr = ""
+        embed = Embed(title='Attendance', description='Shows attendance for chosen role in your current voice channel', color=0x00ff00)
+        memberstr = ''
         for member in role_object.members:
             if member.voice != None:
                 if member.voice.channel == voice:
