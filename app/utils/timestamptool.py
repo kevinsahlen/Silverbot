@@ -5,7 +5,7 @@ import pytz
 from utils.db import getTimezone
 
 # returns a discord timestamp with the timezone adjusted to the user's timezone
-def discordTimestamp(user: discord.Interaction.user, input_HHMM: str,input_day: str, input_month: str,input_year: str) -> str:
+def discordTimestamp(user: discord.User, input_HHMM: str,input_day: str, input_month: str,input_year: str) -> str:
     if input_day is None: input_day = datetime.now().day
     if input_month is None: input_month = datetime.now().month
     if input_year is None: input_year = datetime.now().year
@@ -18,7 +18,7 @@ def discordTimestamp(user: discord.Interaction.user, input_HHMM: str,input_day: 
     return f'<t:{int(cest_adjusted.timestamp())}:R>'
 
 # returns a discord timestamp with with a timedelta restriction and adjust past time, only for use in key command
-def discordTimestampKey(user: discord.Interaction.user, input_HHMM: str,input_day: str, input_month: str,input_year: str) -> str:
+def discordTimestampKey(user: discord.User, input_HHMM: str,input_day: str, input_month: str,input_year: str) -> str:
     if input_day is None: input_day = datetime.now().day
     if input_month is None: input_month = datetime.now().month
     if input_year is None: input_year = datetime.now().year

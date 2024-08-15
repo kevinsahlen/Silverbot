@@ -1,4 +1,5 @@
 /app/.env
+/app/.env_server
 /app/cogs/__pycache__
 /app/utils/__pycache__
 /app/views/__pycache__
