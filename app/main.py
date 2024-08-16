@@ -1,18 +1,16 @@
 #IMPORTS------------------------------------------------
 from discord import Intents
 from discord.ext import commands
-import asyncio
-import os
+from datetime import datetime
+from asyncio import run
 from dotenv import load_dotenv
+import os
 import logging
-import datetime
 
 #INITIALIZE---------------------------------------------
 load_dotenv()
-
 logger = logging.getLogger(__name__)
-intents = Intents.all()
-bot = commands.Bot(command_prefix=os.getenv('PREFIX'), intents=intents)
+bot = commands.Bot(command_prefix=os.getenv('PREFIX'), intents=Intents.all())
 
 #LOADING COGS-------------------------------------------
 async def main():
@@ -58,7 +56,7 @@ async def on_ready():
 
 @bot.event
 async def on_resumed():
-    logger.info(f'Bot resumed {datetime.datetime.now()}')
+    logger.info(f'Bot resumed {datetime.now()}')
 
 @bot.event
 async def on_disconnect():
@@ -70,4 +68,4 @@ async def on_command_error(ctx, error):
 
 #RUN MAIN----------------------------------------------
 if __name__ == '__main__':
-    asyncio.run(main())
+    run(main())

@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
-import re
+from re import match
+from utils.db import getTimezone
 import discord
 import pytz
-from utils.db import getTimezone
 
 # returns a discord timestamp with the timezone adjusted to the user's timezone
 def discordTimestamp(user: discord.User, input_HHMM: str,input_day: str, input_month: str,input_year: str) -> str:
@@ -52,7 +52,7 @@ def extractTime(time: str, day: str, month: str, year: str) -> tuple:
 # checks if time is in HH:MM format
 def validateTime(time: str):
     regex = r'^\s*[0-2][0-9]:[0-5][0-9]\s*$'
-    if not re.match(regex, time.strip()):
+    if not match(regex, time.strip()):
         print('regex failed')
         return False
     return True

@@ -22,7 +22,7 @@ class KeyCog(commands.Cog):
         interaction: Interaction,
         premades: str = None,
         description: str = '',
-        starttime: str = None): 
+        starttime: str = None):
 
 #START OF FUNCTION-------------------------------------------------------------------------------------------
         logger.info(f'Key command used by {interaction.user} - {premades} - {description} - {starttime}')
